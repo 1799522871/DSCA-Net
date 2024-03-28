@@ -216,8 +216,8 @@ def all_np(arr):
 # DataPath = '/home/server03/桌面/Yuxin/Data/IndianPines10/IndianPines_corrected.mat'
 # GTPath = '/home/server03/桌面/Yuxin/Data/IndianPines10/Indian_pines_gt10.mat'
 
-DataPath = '/home/server03/桌面/Yuxin/Data/PaviaU/PaviaU.mat'
-GTPath = '/home/server03/桌面/Yuxin/Data/PaviaU/PaviaU_gt.mat'
+DataPath = '/root/data/DSCA-Net/data/PaviaU.mat'
+GTPath = '/root/data/DSCA-Net/data/PaviaU_gt.mat'
 
 # DataPath = '/home/server03/桌面/Yuxin/Data/KSC/KSC.mat'
 # GTPath = '/home/server03/桌面/Yuxin/Data/KSC/KSC_gt.mat'
@@ -249,12 +249,18 @@ GT = GT['paviaU_gt']
 ##train test
 # labeled_train_gt_2D, unlabeled_train_gt_2D, test_gt_2D = split_dataset_equal(GT, numTrain=10, unlabeled_num=6000)
 # train_gt_2D, test_gt_2D = split_dataset(GT, numTrain=0.1)
-labeled_train_gt_2D, test_gt_2D = split_dataset_equal(GT, numTrain=10)
-unlabeled_train_gt_2D = split_dataset_SGLP(DataPath, GTPath, labeled_train_gt_2D, test_gt_2D, unlabeled_num=500, num_superpixel=6287)
-io.savemat('/home/server03/桌面/Yuxin/Data/KSC/10label/KSC_10label_train9.mat', {'data': labeled_train_gt_2D})  #保存mat文件
-io.savemat('/home/server03/桌面/Yuxin/Data/KSC/10label/KSC_10label_unlabeled_train9.mat', {'data': unlabeled_train_gt_2D})  #保存mat文件
-io.savemat('/home/server03/桌面/Yuxin/Data/KSC/10label/KSC_10label_test9.mat', {'data': test_gt_2D})
+labeled_train_gt_2D, test_gt_2D = split_dataset_equal(GT, numTrain=10)    # 610*340      610*340
+unlabeled_train_gt_2D = split_dataset_SGLP(DataPath, GTPath, labeled_train_gt_2D, test_gt_2D, unlabeled_num=500, num_superpixel=6287)  # 610*340  
+# io.savemat('/home/server03/桌面/Yuxin/Data/KSC/10label/KSC_10label_train9.mat', {'data': labeled_train_gt_2D})  #保存mat文件
+# io.savemat('/home/server03/桌面/Yuxin/Data/KSC/10label/KSC_10label_unlabeled_train9.mat', {'data': unlabeled_train_gt_2D})  #保存mat文件
+# io.savemat('/home/server03/桌面/Yuxin/Data/KSC/10label/KSC_10label_test9.mat', {'data': test_gt_2D})
+
+io.savemat('/root/data/DSCA-Net/data/PaviaU_10_label_train_1.mat', {'data': labeled_train_gt_2D})  #保存mat文件
+io.savemat('/root/data/DSCA-Net/data/PaviaU_10_unlabeled_train_1.mat', {'data': unlabeled_train_gt_2D})  #保存mat文件
+io.savemat('/root/data/DSCA-Net/data/PaviaU_10_label_test_1.mat', {'data': test_gt_2D})
 ##TSNE
 # train_gt_2D, test_gt_2D = split_dataset_equal(GT, numTrain=500)
 #
 # io.savemat('./KSC_eachClass_500_tsne.mat', {'data': train_gt_2D})  #保存mat文件
+
+print('========================================================')

@@ -25,8 +25,28 @@ import torch.nn as nn
 import torch.nn.functional as F
 from collections import Counter
 import math
+import datetime
+
+from models.wrn import build_WideResNet
+import torchvision
+from models.RESNET import CustomResNet50
 
 
+
+def create_dir_str(args):
+    current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")  # 获取当前时间戳
+    dir_name = (
+        args.dataset
+        + "/"
+        + args.model
+        + "_batch"
+        + str(args.batch_size)
+        + "_epoch"
+        + str(args.epoches)
+        + "_"
+        + current_time
+    )
+    return dir_name
 
 def time_str(fmt=None):
     if fmt is None:
@@ -64,8 +84,18 @@ def set_model(args):
         return model0
 
     if args.model == 'Network':
-        model1 = Network(args.bands, args.num_classes, args.feature_dim)
+        model1 = Network(args.bands, args.num_classes, args.feature_dim)  #默认 TestPatch.shape[1]，len(np.unique(TestLabel))， 256
         return model1
+        
+    if args.model == 'WideResnet':
+        wrn_builder = build_WideResNet(depth=28, widen_factor=2, bn_momentum=0.01, leaky_slope=0.1, dropRate=0.0)
+        model2 = wrn_builder.build(21)
+        return model2
+
+    if args.model == 'resnet50':
+        backbone = torchvision.models.resnet50(pretrained=True)
+        model3 = CustomResNet50(backbone,21)
+        return model3
 
 
 def DrawCluster(label, cluster, dataset, oa):

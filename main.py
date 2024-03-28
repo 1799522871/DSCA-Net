@@ -52,7 +52,7 @@ def train(model,
 
         #
         confidence, pseudo_labels = torch.softmax(y_u.detach(), dim=1).max(dim=1)
-        mask = confidence.ge(0.95 * ((-0.3) * (torch.pow((classwise_acc[pseudo_labels] - 1), 2)) + 1)).float()
+        mask = confidence.ge(0.95 * ((-0.3) * (torch.pow((classwise_acc[pseudo_labels] - 1), 2)) + 1)).float()   # 这个就是动态阈值处理部分，这里λ为-0.3
         #     self_training_loss = (F.cross_entropy(y_u_strong, pseudo_labels, reduction='none') * mask).mean()
         # else:
         self_training_loss = (F.cross_entropy(y_u_strong, pseudo_labels, reduction='none') * mask).mean()

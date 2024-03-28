@@ -9,12 +9,12 @@ from torch.utils.data import DataLoader
 from torch.utils.data import TensorDataset
 
 
-def get_dataloaders(batchsize=30, n=0, dataset='Houston'):
+def get_dataloaders(batchsize=30, n=1, dataset='PaviaU'):  #默认写的Houston  n=0
     # setting parameters
-    DataPath = '/Data/{}/{}.mat'.format(dataset, dataset)
-    TRPath = '/Data/{}/10label/{}_10label_train{}.mat'.format(dataset, dataset, n)
-    TRPath_u = '/Data/{}/10label/{}_10label_unlabeled_train{}.mat'.format(dataset, dataset, n)
-    TSPath = '/Data/{}/10label/{}_10label_test{}.mat'.format(dataset, dataset, n)
+    DataPath = '/root/data/DSCA-Net/data/{}/{}.mat'.format(dataset, dataset)
+    TRPath = '/root/data/DSCA-Net/data/{}/10label/{}_10_label_train_{}.mat'.format(dataset, dataset, n)   # 修改数据的地址
+    TRPath_u = '/root/data/DSCA-Net/data/{}/10label/{}_10_unlabeled_train_{}.mat'.format(dataset, dataset, n)
+    TSPath = '/root/data/DSCA-Net/data/{}/10label/{}_10_label_test_{}.mat'.format(dataset, dataset, n)
     TrLabel_s = io.loadmat(TRPath)
     TrLabel_u = io.loadmat(TRPath_u)
     TsLabel = io.loadmat(TSPath)
@@ -97,7 +97,8 @@ def get_dataloaders(batchsize=30, n=0, dataset='Houston'):
 if __name__ == '__main__':
 
     train_loader_s, test_loader, train_loader_u, TestLabel1, TestPatch1, pad_width_data, train_dataset_u = get_dataloaders()
-    print(len(train_loader_s), len(train_loader_u), len(test_loader))
+    print(len(train_loader_s), len(train_loader_u), len(test_loader))   # 3 150   1423
+    print('=====================================')
 
 
 
